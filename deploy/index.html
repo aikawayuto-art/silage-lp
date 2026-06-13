@@ -399,11 +399,31 @@ br.sp{display:none}
 .field{margin-top:18px}
 .field label{display:block;font-family:"Archivo",sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
 .field label .req{color:var(--red-2);margin-left:6px}
-.field input,.field textarea{width:100%;background:rgba(0,0,0,.32);border:1px solid var(--line);border-radius:12px;
+.field input:not([type=radio]):not([type=checkbox]),.field textarea{width:100%;background:rgba(0,0,0,.32);border:1px solid var(--line);border-radius:12px;
   padding:14px 16px;color:var(--ink);font-family:inherit;font-size:15px;transition:border-color .3s,box-shadow .3s}
 .field textarea{min-height:108px;resize:vertical}
-.field input:focus,.field textarea:focus{outline:none;border-color:rgba(255,45,45,.6);box-shadow:0 0 0 3px rgba(255,45,45,.14)}
+.field input:not([type=radio]):not([type=checkbox]):focus,.field textarea:focus{outline:none;border-color:rgba(255,45,45,.6);box-shadow:0 0 0 3px rgba(255,45,45,.14)}
 .field input::placeholder,.field textarea::placeholder{color:rgba(246,241,241,.3)}
+
+/* premium radio option cards */
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.opt-grid.col{grid-template-columns:1fr}
+.opt{position:relative;display:flex;align-items:center;gap:12px;cursor:pointer;margin:0;
+  background:rgba(0,0,0,.32);border:1px solid var(--line);border-radius:12px;padding:14px 16px;
+  font-family:"Noto Sans JP",sans-serif;font-weight:500;font-size:14.5px;letter-spacing:0;color:var(--muted);line-height:1.4;
+  transition:border-color .3s var(--ease),background .3s var(--ease),box-shadow .3s var(--ease)}
+.opt:hover{border-color:rgba(255,45,45,.5);background:rgba(196,0,18,.08)}
+.opt input[type=radio]{appearance:none;-webkit-appearance:none;flex:none;width:20px;height:20px;margin:0;
+  border:2px solid rgba(246,241,241,.32);border-radius:50%;background:transparent;cursor:pointer;
+  transition:border-color .3s var(--ease),box-shadow .3s var(--ease);position:relative}
+.opt input[type=radio]::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--red);
+  transform:scale(0);transition:transform .25s var(--ease);box-shadow:0 0 10px rgba(255,45,45,.7)}
+.opt input[type=radio]:checked{border-color:var(--red)}
+.opt input[type=radio]:checked::after{transform:scale(1)}
+.opt input[type=radio]:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(255,45,45,.25)}
+.opt:has(input:checked){border-color:rgba(255,45,45,.7);background:rgba(196,0,18,.14);color:var(--ink);
+  box-shadow:0 0 0 1px rgba(255,45,45,.2) inset}
+@media(max-width:560px){.opt-grid{grid-template-columns:1fr}}
 .form-submit{width:100%;margin-top:26px;display:inline-flex;align-items:center;justify-content:center;gap:11px;
   font-family:"Archivo",sans-serif;font-weight:800;font-size:17px;letter-spacing:.03em;
   padding:18px;border-radius:100px;color:#fff;background:linear-gradient(120deg,var(--red-deep),var(--red));
@@ -645,20 +665,26 @@ footer{border-top:1px solid var(--line);padding:38px clamp(18px,4vw,40px);positi
           <div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" name="email" required placeholder="you@example.com"></div>
           <div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" name="tel" required placeholder="090-1234-5678"></div>
           <div class="field"><label>現在のビジネス内容は？<span class="req">必須</span></label><input type="text" name="business" required placeholder="例：越境人材事業、EC事業など"></div>
-          <fieldset class="field"><legend style="display:block;font-family:'Archivo',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.08em;color:var(--muted);margin-bottom:12px">今回のお問い合わせは？<span class="req">必須</span></legend>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-weight:400;cursor:pointer;"><input type="radio" name="consultationType" value="サイト制作（LP / HP）" required> サイト制作したい（LP / HP）</label>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-weight:400;cursor:pointer;"><input type="radio" name="consultationType" value="AI自動化システム構築" required> AI自動化システムを構築したい</label>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-weight:400;cursor:pointer;"><input type="radio" name="consultationType" value="現在のシステム改善" required> 現在のシステムを改善したい</label>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-weight:400;cursor:pointer;"><input type="radio" name="consultationType" value="提携 / パートナーシップ相談" required> 提携 / パートナーシップ相談</label>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:0;font-weight:400;cursor:pointer;"><input type="radio" name="consultationType" value="その他" required> その他</label>
-          </fieldset>
-          <fieldset class="field"><legend style="display:block;font-family:'Archivo',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.08em;color:var(--muted);margin-bottom:12px">ざっくり予算イメージは？<span class="req">必須</span></legend>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-weight:400;cursor:pointer;"><input type="radio" name="budget" value="50万円まで" required> 50万円まで</label>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-weight:400;cursor:pointer;"><input type="radio" name="budget" value="50万〜150万円" required> 50万〜150万円</label>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-weight:400;cursor:pointer;"><input type="radio" name="budget" value="150万〜300万円" required> 150万〜300万円</label>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-weight:400;cursor:pointer;"><input type="radio" name="budget" value="300万円以上" required> 300万円以上</label>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:0;font-weight:400;cursor:pointer;"><input type="radio" name="budget" value="予算は未定" required> 予算は未定</label>
-          </fieldset>
+          <div class="field"><label>今回のお問い合わせは？<span class="req">必須</span></label>
+            <div class="opt-grid col">
+              <label class="opt"><input type="radio" name="consultationType" value="サイト制作（LP / HP）" required> サイト制作したい（LP / HP）</label>
+              <label class="opt"><input type="radio" name="consultationType" value="AI自動化システム構築" required> AI自動化システムを構築したい</label>
+              <label class="opt"><input type="radio" name="consultationType" value="現在のシステム改善" required> 現在のシステムを改善したい</label>
+              <label class="opt"><input type="radio" name="consultationType" value="提携 / パートナーシップ相談" required> 提携 / パートナーシップ相談</label>
+              <label class="opt"><input type="radio" name="consultationType" value="その他" required> その他</label>
+            </div>
+          </div>
+          <div class="field"><label>ざっくり予算イメージは？<span class="req">必須</span></label>
+            <div class="opt-grid">
+              <label class="opt"><input type="radio" name="budget" value="5万〜10万円" required> 5万〜10万円</label>
+              <label class="opt"><input type="radio" name="budget" value="10万〜30万円" required> 10万〜30万円</label>
+              <label class="opt"><input type="radio" name="budget" value="30万〜50万円" required> 30万〜50万円</label>
+              <label class="opt"><input type="radio" name="budget" value="50万〜150万円" required> 50万〜150万円</label>
+              <label class="opt"><input type="radio" name="budget" value="150万〜300万円" required> 150万〜300万円</label>
+              <label class="opt"><input type="radio" name="budget" value="300万円以上" required> 300万円以上</label>
+              <label class="opt"><input type="radio" name="budget" value="予算は未定" required> 予算は未定</label>
+            </div>
+          </div>
           <div class="field"><label>その他、ご質問やご要望<span style="color:var(--faint);margin-left:6px;font-weight:400">任意</span></label><textarea name="message" placeholder="作りたいサイトのイメージ・納期など"></textarea></div>
           <button type="submit" class="form-submit">応募する →</button>
           <p class="form-fine">送信いただいても費用は発生しません。担当より2営業日以内にご連絡します。</p>
