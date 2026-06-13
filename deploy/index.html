@@ -759,15 +759,26 @@ footer{border-top:1px solid var(--line);padding:38px clamp(18px,4vw,40px);positi
     });
   }
 
-  // form
+  // form — FormSubmitのAJAXエンドポイントへfetch送信。成功/失敗を確実に判定し、非表示iframe＋captcha詰まりを回避する
   const form=document.getElementById('leadForm'), done=document.getElementById('formDone');
-  if(form.dataset.fs) form.action='https://formsubmit.co/'+atob(form.dataset.fs);
-  form.addEventListener('submit',e=>{
-    if(!form.reportValidity()){ e.preventDefault(); return; }
-    // hidden iframe(target=fsframe)へネイティブ送信＝CORSの影響を受けずFormSubmitへ確実に届く（file://でもOK）
-    const btn=form.querySelector('.form-submit'); btn.textContent='送信中…';
-    if(typeof fbq==='function') fbq('track','Lead');
-    setTimeout(function(){ form.style.display='none'; done.classList.add('show'); done.scrollIntoView({behavior:'smooth',block:'center'}); },60);
+  const fsEmail=form.dataset.fs?atob(form.dataset.fs):'';
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(!form.reportValidity()) return;
+    const btn=form.querySelector('.form-submit'); const orig=btn.textContent;
+    btn.textContent='送信中…'; btn.disabled=true;
+    try{
+      const res=await fetch('https://formsubmit.co/ajax/'+fsEmail,{
+        method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form)
+      });
+      const data=await res.json().catch(()=>({}));
+      if(!(res.ok&&(data.success===true||data.success==='true'))) throw new Error(data.message||'送信失敗');
+      if(typeof fbq==='function') fbq('track','Lead');
+      form.style.display='none'; done.classList.add('show'); done.scrollIntoView({behavior:'smooth',block:'center'});
+    }catch(err){
+      btn.textContent=orig; btn.disabled=false;
+      alert('送信に失敗しました。お手数ですが、もう一度お試しいただくか、Info@silage-web.com まで直接ご連絡ください。');
+    }
   });
 })();
 </script>
