@@ -390,21 +390,41 @@ br.sp{display:none}
 .qa .a .q2{color:var(--red-2);font-family:"Archivo",sans-serif;font-weight:800;margin-right:8px}
 
 /* ---------- portfolio ---------- */
-.portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-@media(max-width:640px){.portfolio-grid{grid-template-columns:1fr}}
-.pf-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;
+.pf-track-wrap{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);mask:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);padding:0 0 8px}
+.pf-track{display:flex;gap:24px;animation:pfScroll 32s linear infinite;width:max-content;cursor:grab}
+.pf-track:hover{animation-play-state:paused}
+@keyframes pfScroll{to{transform:translateX(-50%)}}
+.pf-card{flex:none;width:clamp(280px,36vw,400px);border:1px solid var(--line);border-radius:16px;overflow:hidden;
   background:linear-gradient(160deg,rgba(16,8,11,.6),rgba(9,5,7,.46));
   transition:transform .5s var(--ease),border-color .5s var(--ease),box-shadow .5s var(--ease);
-  text-decoration:none;color:inherit;display:block}
+  cursor:pointer;user-select:none}
 .pf-card:hover{transform:translateY(-5px);border-color:rgba(255,45,45,.4);box-shadow:0 24px 56px rgba(0,0,0,.5),0 0 0 1px rgba(255,45,45,.16) inset}
 .pf-preview{position:relative;aspect-ratio:16/9.5;overflow:hidden;border-bottom:1px solid var(--line)}
 .pf-preview iframe{position:absolute;top:0;left:0;width:200%;height:200%;transform:scale(.5);transform-origin:top left;pointer-events:none;border:0}
-.pf-info{padding:18px 22px}
-.pf-name{font-family:"Shippori Mincho B1",serif;font-weight:700;font-size:clamp(16px,2vw,20px);margin-bottom:4px}
-.pf-type{font-family:"Archivo",sans-serif;font-weight:700;font-size:11px;letter-spacing:.14em;color:var(--red-2);text-transform:uppercase}
-.pf-desc{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6}
-.pf-link{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:"Archivo",sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;color:var(--red-2);transition:gap .3s var(--ease)}
-.pf-card:hover .pf-link{gap:10px}
+.pf-info{padding:14px 18px}
+.pf-name{font-family:"Shippori Mincho B1",serif;font-weight:700;font-size:clamp(15px,1.8vw,19px);margin-bottom:3px}
+.pf-type{font-family:"Archivo",sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.14em;color:var(--red-2);text-transform:uppercase}
+.pf-desc{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5}
+.pf-open{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-family:"Archivo",sans-serif;font-weight:700;font-size:11px;letter-spacing:.06em;color:var(--red-2)}
+/* ---------- portfolio modal ---------- */
+.pf-modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+  background:rgba(4,2,3,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  opacity:0;transition:opacity .35s var(--ease)}
+.pf-modal.open{display:flex;opacity:1}
+.pf-modal-inner{position:relative;width:92vw;height:86vh;max-width:1200px;border-radius:18px;overflow:hidden;
+  border:1px solid var(--line);box-shadow:0 40px 100px rgba(0,0,0,.7);background:var(--bg);
+  transform:translateY(20px) scale(.97);transition:transform .4s var(--ease)}
+.pf-modal.open .pf-modal-inner{transform:none}
+.pf-modal-inner iframe{width:100%;height:100%;border:0}
+.pf-modal-close{position:absolute;top:14px;right:14px;z-index:10;width:42px;height:42px;border-radius:50%;
+  background:rgba(0,0,0,.7);border:1px solid var(--line);color:#fff;font-size:20px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:background .3s,transform .3s var(--ease);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.pf-modal-close:hover{background:var(--red);transform:scale(1.1)}
+.pf-modal-bar{position:absolute;bottom:0;left:0;right:0;padding:12px 22px;
+  background:linear-gradient(transparent,rgba(4,2,3,.94));display:flex;align-items:center;gap:14px;z-index:10}
+.pf-modal-bar .pf-name{color:#fff;font-size:15px}
+.pf-modal-bar .pf-type{font-size:10px}
 
 /* ---------- mid-form ---------- */
 .mid-form-sec{padding-top:0;padding-bottom:clamp(40px,6vh,60px)}
@@ -586,43 +606,83 @@ footer{border-top:1px solid var(--line);padding:38px clamp(18px,4vw,40px);positi
         <h2 class="sec-title" data-reveal>実際に<em>AIで制作</em>したサイト</h2>
         <p class="lede" data-reveal>すべてSILAGEが制作。業種を問わず、高品質なサイトをAIエージェントチームが実現します。</p>
       </div>
-      <div class="portfolio-grid">
-        <a href="https://fabulous-sable-2b1f8a.netlify.app" target="_blank" rel="noopener" class="pf-card" data-reveal>
-          <div class="pf-preview"><iframe src="https://fabulous-sable-2b1f8a.netlify.app" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
-          <div class="pf-info">
-            <div class="pf-type">注文住宅</div>
-            <div class="pf-name">NODOKA HOMES</div>
-            <div class="pf-desc">光と木と余白を活かした自然素材の家づくり。ナチュラルブランディングを表現。</div>
-            <span class="pf-link">サイトを見る →</span>
+      <div class="pf-track-wrap">
+        <div class="pf-track">
+          <!-- set 1 -->
+          <div class="pf-card" data-url="https://fabulous-sable-2b1f8a.netlify.app" data-name="NODOKA HOMES" data-type="注文住宅" data-reveal>
+            <div class="pf-preview"><iframe src="https://fabulous-sable-2b1f8a.netlify.app" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+            <div class="pf-info">
+              <div class="pf-type">注文住宅</div>
+              <div class="pf-name">NODOKA HOMES</div>
+              <div class="pf-desc">光と木と余白を活かした自然素材の家づくり。ナチュラルブランディングを表現。</div>
+              <span class="pf-open">プレビュー →</span>
+            </div>
           </div>
-        </a>
-        <a href="https://bespoke-strudel-a40ce2.netlify.app" target="_blank" rel="noopener" class="pf-card" data-reveal>
-          <div class="pf-preview"><iframe src="https://bespoke-strudel-a40ce2.netlify.app" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
-          <div class="pf-info">
-            <div class="pf-type">人材紹介</div>
-            <div class="pf-name">ORBE</div>
-            <div class="pf-desc">東南アジア人材を日本へ。グローバル人材モビリティ企業のコーポレートサイト。</div>
-            <span class="pf-link">サイトを見る →</span>
+          <div class="pf-card" data-url="https://bespoke-strudel-a40ce2.netlify.app" data-name="ORBE" data-type="人材紹介" data-reveal>
+            <div class="pf-preview"><iframe src="https://bespoke-strudel-a40ce2.netlify.app" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+            <div class="pf-info">
+              <div class="pf-type">人材紹介</div>
+              <div class="pf-name">ORBE</div>
+              <div class="pf-desc">東南アジア人材を日本へ。グローバル人材モビリティ企業のコーポレートサイト。</div>
+              <span class="pf-open">プレビュー →</span>
+            </div>
           </div>
-        </a>
-        <a href="https://famous-bublanina-f17515.netlify.app" target="_blank" rel="noopener" class="pf-card" data-reveal>
-          <div class="pf-preview"><iframe src="https://famous-bublanina-f17515.netlify.app" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
-          <div class="pf-info">
-            <div class="pf-type">エステサロン</div>
-            <div class="pf-name">Lumiere Beaute</div>
-            <div class="pf-desc">表参道の小顔リフト専門サロン。和漢×フランス美容の世界観を高級感あるデザインで。</div>
-            <span class="pf-link">サイトを見る →</span>
+          <div class="pf-card" data-url="https://famous-bublanina-f17515.netlify.app" data-name="Lumiere Beaute" data-type="エステサロン" data-reveal>
+            <div class="pf-preview"><iframe src="https://famous-bublanina-f17515.netlify.app" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+            <div class="pf-info">
+              <div class="pf-type">エステサロン</div>
+              <div class="pf-name">Lumiere Beaute</div>
+              <div class="pf-desc">表参道の小顔リフト専門サロン。和漢×フランス美容の世界観を高級感あるデザインで。</div>
+              <span class="pf-open">プレビュー →</span>
+            </div>
           </div>
-        </a>
-        <a href="https://tranquil-licorice-2a3612.netlify.app" target="_blank" rel="noopener" class="pf-card" data-reveal>
-          <div class="pf-preview"><iframe src="https://tranquil-licorice-2a3612.netlify.app" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
-          <div class="pf-info">
-            <div class="pf-type">Web制作会社</div>
-            <div class="pf-name">SCROLLSTOP</div>
-            <div class="pf-desc">WebGL・キネティックタイポで没入体験を設計するデジタルスタジオ。</div>
-            <span class="pf-link">サイトを見る →</span>
+          <div class="pf-card" data-url="https://tranquil-licorice-2a3612.netlify.app" data-name="SCROLLSTOP" data-type="Web制作会社" data-reveal>
+            <div class="pf-preview"><iframe src="https://tranquil-licorice-2a3612.netlify.app" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+            <div class="pf-info">
+              <div class="pf-type">Web制作会社</div>
+              <div class="pf-name">SCROLLSTOP</div>
+              <div class="pf-desc">WebGL・キネティックタイポで没入体験を設計するデジタルスタジオ。</div>
+              <span class="pf-open">プレビュー →</span>
+            </div>
           </div>
-        </a>
+          <!-- set 2 (duplicate for infinite scroll) -->
+          <div class="pf-card" data-url="https://fabulous-sable-2b1f8a.netlify.app" data-name="NODOKA HOMES" data-type="注文住宅" aria-hidden="true">
+            <div class="pf-preview"><iframe src="https://fabulous-sable-2b1f8a.netlify.app" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+            <div class="pf-info">
+              <div class="pf-type">注文住宅</div>
+              <div class="pf-name">NODOKA HOMES</div>
+              <div class="pf-desc">光と木と余白を活かした自然素材の家づくり。ナチュラルブランディングを表現。</div>
+              <span class="pf-open">プレビュー →</span>
+            </div>
+          </div>
+          <div class="pf-card" data-url="https://bespoke-strudel-a40ce2.netlify.app" data-name="ORBE" data-type="人材紹介" aria-hidden="true">
+            <div class="pf-preview"><iframe src="https://bespoke-strudel-a40ce2.netlify.app" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+            <div class="pf-info">
+              <div class="pf-type">人材紹介</div>
+              <div class="pf-name">ORBE</div>
+              <div class="pf-desc">東南アジア人材を日本へ。グローバル人材モビリティ企業のコーポレートサイト。</div>
+              <span class="pf-open">プレビュー →</span>
+            </div>
+          </div>
+          <div class="pf-card" data-url="https://famous-bublanina-f17515.netlify.app" data-name="Lumiere Beaute" data-type="エステサロン" aria-hidden="true">
+            <div class="pf-preview"><iframe src="https://famous-bublanina-f17515.netlify.app" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+            <div class="pf-info">
+              <div class="pf-type">エステサロン</div>
+              <div class="pf-name">Lumiere Beaute</div>
+              <div class="pf-desc">表参道の小顔リフト専門サロン。和漢×フランス美容の世界観を高級感あるデザインで。</div>
+              <span class="pf-open">プレビュー →</span>
+            </div>
+          </div>
+          <div class="pf-card" data-url="https://tranquil-licorice-2a3612.netlify.app" data-name="SCROLLSTOP" data-type="Web制作会社" aria-hidden="true">
+            <div class="pf-preview"><iframe src="https://tranquil-licorice-2a3612.netlify.app" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+            <div class="pf-info">
+              <div class="pf-type">Web制作会社</div>
+              <div class="pf-name">SCROLLSTOP</div>
+              <div class="pf-desc">WebGL・キネティックタイポで没入体験を設計するデジタルスタジオ。</div>
+              <span class="pf-open">プレビュー →</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1109,6 +1169,37 @@ try {
 })();
 </script>
 
-<!-- デモモーダル（LP内で本物のデモサイトを全画面表示） -->
+<!-- ポートフォリオ モーダル -->
+<div class="pf-modal" id="pfModal">
+  <div class="pf-modal-inner">
+    <button class="pf-modal-close" id="pfClose" aria-label="閉じる">&times;</button>
+    <iframe id="pfFrame" src="about:blank"></iframe>
+    <div class="pf-modal-bar">
+      <span class="pf-name" id="pfBarName"></span>
+      <span class="pf-type" id="pfBarType"></span>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const modal=document.getElementById('pfModal'),frame=document.getElementById('pfFrame'),
+        barName=document.getElementById('pfBarName'),barType=document.getElementById('pfBarType');
+  function open(url,name,type){
+    frame.src=url;barName.textContent=name;barType.textContent=type;
+    modal.classList.add('open');document.body.style.overflow='hidden';
+    requestAnimationFrame(()=>{modal.style.opacity='1'});
+  }
+  function close(){
+    modal.style.opacity='0';
+    setTimeout(()=>{modal.classList.remove('open');frame.src='about:blank';document.body.style.overflow=''},350);
+  }
+  document.getElementById('pfClose').onclick=close;
+  modal.addEventListener('click',e=>{if(e.target===modal)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))close()});
+  document.querySelectorAll('.pf-card').forEach(c=>{
+    c.addEventListener('click',()=>open(c.dataset.url,c.dataset.name,c.dataset.type));
+  });
+})();
+</script>
 </body>
 </html>
